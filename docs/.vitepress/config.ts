@@ -34,6 +34,13 @@ export default defineConfig({
           { text: 'Avatar', link: '/components/avatar' },
           { text: 'Button', link: '/components/button' },
           { text: "Badge", link: "/components/badge" },
+          { text: "Spinner", link: "/components/spinner" },
+          { text: "Kbd", link: "/components/kbd" },
+          { text: "Label", link: "/components/label" },
+          { text: "Checkbox", link: "/components/checkbox" },
+          { text: "Switch", link: "/components/switch" },
+          { text: "Popover", link: "/components/popover" },
+          { text: "Dropdown", link: "/components/dropdown" },
         ]
       }
     ],
