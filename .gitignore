@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output (the published artifact — regenerated, never committed)
+dist/
+
+# Vite / build caches
+.vite/
+*.local
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Test coverage
+coverage/

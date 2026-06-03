@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@source "../../lib";
+@import "../../lib/styles/tokens.css";
+
+@theme {
+}
+
+body {
+    @apply min-h-screen antialiased overflow-x-hidden text-text-primary bg-bg-base  selection:bg-amber-300;
+}
