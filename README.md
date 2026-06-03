@@ -1,5 +1,32 @@
-# Vue 3 + TypeScript + Vite
+# My Design System
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A personal, reusable component library for Vue 3 — tokenized, accessible, and built to be composed.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## Goal
+
+A standalone design system I can drop into any future Vue project: a small set of
+well-made, consistent components instead of rebuilding buttons, inputs, and modals
+from scratch every time. The philosophy is shadcn-inspired — compound components you
+compose (`Field` + `Label` + `Input`, `Modal` + `ModalHeader` + `ModalContent`)
+rather than monolithic components with dozens of props.
+
+## Built with
+
+- **Vue 3** + **TypeScript**
+- **Vite** (library build)
+- **Tailwind CSS v4** with semantic design tokens
+- **Headless UI** + **Float** for accessible overlays
+- **Vitest** for component tests
+
+## Principles
+
+- **Tokenized** — colors, spacing, and surfaces come from semantic design tokens,
+  not hardcoded values, so the whole system is themeable from one place.
+- **Accessible** — ARIA wiring, focus management, and labels are built in, judged
+  per component.
+- **Composable** — small parts that combine, over large components with many props.
+
+## Status
+
+In active development. The component library lives in `lib/`; a docs/playground site
+lives in `src/`. Not yet published to npm.
