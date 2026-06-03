@@ -1,0 +1,29 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css";
+@import "../../../lib/styles/tokens.css";
+
+@source "../../../lib/**/*.vue";
+@source "../../../lib/**/*.ts";
+
+/* Map VitePress's theme variables onto your design tokens. */
+:root {
+    /* Brand / accent — used on links, active nav, buttons */
+    --vp-c-brand-1: var(--color-brand-200);
+    --vp-c-brand-2: var(--color-brand-100);
+    --vp-c-brand-3: var(--color-brand-200);
+    --vp-c-brand-soft: var(--color-brand-100);
+
+    /* Backgrounds */
+    --vp-c-bg: var(--color-bg-base);
+    --vp-c-bg-alt: var(--color-bg-surface);
+    --vp-c-bg-soft: var(--color-bg-surface);
+
+    /* Text */
+    --vp-c-text-1: var(--color-text-primary);
+    --vp-c-text-2: var(--color-text-secondary);
+    --vp-c-text-3: var(--color-text-tertiary);
+
+    /* Borders / dividers */
+    --vp-c-divider: var(--color-bg-400);
+    --vp-c-border: var(--color-bg-400);
+}

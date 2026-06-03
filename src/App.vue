@@ -19,7 +19,14 @@ const navigation = [
         <header class="sticky top-0 z-50 w-full bg-bg-base">
             <div class="flex items-center justify-between px-6 h-16">
                 <div class="flex items-center gap-x-8">
-                    <RouterLink to="/components" class="text-sm font-semibold">
+                    <RouterLink
+                        to="/"
+                        class="flex h-16 items-center gap-2 text-sm font-semibold tracking-tight"
+                    >
+                        <span
+                            class="size-2.5 rounded-full bg-brand-200"
+                            aria-hidden="true"
+                        />
                         Design System
                     </RouterLink>
                     <nav class="flex items-center gap-x-2">
@@ -44,7 +51,7 @@ const navigation = [
             </div>
         </header>
 
-        <main class="mx-auto max-w-3xl px-8 py-10">
+        <main class="">
             <RouterView />
         </main>
     </div>

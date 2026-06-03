@@ -1,23 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { components } from "./registry";
+import DocsLayout from "./components/DocsLayout.vue";
 
 const routes = [
 	{
 		path: "/",
 		name: "home",
-		component: () => import("./pages/HomePage.vue"),
+		component: () => import("./pages/HomePage.vue"), // no sidebar
 	},
 	{
 		path: "/components",
 		name: "components",
-		component: () => import("./pages/ComponentsIndex.vue"),
+		component: () => import("./pages/ComponentsIndex.vue"), // no sidebar — the index/grid
 	},
-	// One route per registered component.
-	...components.map((c) => ({
-		path: `/components/${c.slug}`,
-		name: c.slug,
-		component: c.page,
-	})),
+	{
+		// ONLY individual component pages get the sidebar.
+		path: "/components",
+		component: DocsLayout,
+		children: [
+			...components.map((c) => ({
+				path: c.slug, // → /components/avatar, /components/button, ...
+				name: c.slug,
+				component: c.page,
+			})),
+		],
+	},
 ];
 
 export const router = createRouter({

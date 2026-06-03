@@ -9,7 +9,7 @@ import {
     DropdownTrigger,
     DropdownContent,
     DropdownItem,
-} from "../../lib/components/form/dropdown/index.ts";
+} from "../../../lib/components/form/dropdown/index.ts";
 
 const lastAction = ref<string>("—");
 const select = (action: string): void => {
