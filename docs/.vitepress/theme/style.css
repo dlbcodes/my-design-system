@@ -15,7 +15,8 @@
 
     /* Backgrounds */
     --vp-c-bg: var(--color-bg-base);
-    --vp-c-bg-alt: var(--color-bg-surface);
+    --vp-c-bg-alt: var(--color-bg-base);
+    /* --vp-c-bg-alt: var(--color-bg-surface); */
     --vp-c-bg-soft: var(--color-bg-surface);
 
     /* Text */
@@ -26,4 +27,123 @@
     /* Borders / dividers */
     --vp-c-divider: var(--color-bg-400);
     --vp-c-border: var(--color-bg-400);
+}
+
+/* ── Polished doc-content styling (applies to all markdown pages) ── */
+
+/* Page heading rhythm */
+.vp-doc h1 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+}
+
+.vp-doc h2 {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border-subtle);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+}
+
+.vp-doc h3 {
+    margin-top: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+/* Body copy */
+.vp-doc p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+/* Inline code → token pill */
+.vp-doc :not(pre) > code {
+    background-color: var(--color-bg-subtle);
+    color: var(--color-text-primary);
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+/* Tables → clean, bordered, token-styled */
+.vp-doc table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border-subtle);
+    font-size: 0.875rem;
+}
+
+.vp-doc th {
+    background-color: var(--color-bg-surface);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    text-align: left;
+    padding: 0.625rem 1rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.vp-doc td {
+    padding: 0.625rem 1rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+    color: var(--color-text-secondary);
+    vertical-align: top;
+}
+
+.vp-doc tr:last-child td {
+    border-bottom: 0;
+}
+
+/* VitePress adds zebra striping by default — remove for a cleaner look */
+.vp-doc tr:nth-child(2n) {
+    background-color: transparent;
+}
+
+.vitepress-demo-preview__ant-design__container {
+    background-color: white;
+    border-radius: 12px;
+}
+
+.content-body {
+    @apply backdrop-blur-2xl bg-bg-base/70;
+}
+
+/* Reset VitePress doc styles within demo previews */
+.vp-doc .vitepress-demo-preview__ant-design__container :where(p) {
+    margin: 0;
+    line-height: inherit;
+    color: inherit;
+}
+
+.vp-doc .vitepress-demo-preview__ant-design__container :where(a) {
+    color: inherit;
+    text-decoration: inherit;
+    font-weight: inherit;
+}
+
+.vp-doc
+    .vitepress-demo-preview__ant-design__container
+    :where(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+}
+
+.vp-doc .vitepress-demo-preview__ant-design__container :where(ul, ol) {
+    margin: 0;
+    padding: 0;
+    list-style: revert;
 }
