@@ -51,6 +51,8 @@ export default defineConfig({
           { text: "Disclosure", link: "/components/disclosure" },
           { text: "Separator", link: "/components/separator" },
           { text: "Skeleton", link: "/components/skeleton" },
+          { text: "Progress", link: "/components/progress" },
+          { text: "Alert", link: "/components/alert" },
         ]
       }
     ],

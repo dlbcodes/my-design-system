@@ -7,6 +7,8 @@ export { default as KbdGroup } from "./KbdGroup.vue";
 export { default as Label } from "./Label.vue";
 export { default as Separator } from "./Separator.vue";
 export { default as Skeleton } from "./Skeleton.vue";
+export { default as Progress } from "./Progress.vue";
 export * from "./panel";
 export * from "./tabs";
 export * from "./disclosure";
+export * from "./alert";
