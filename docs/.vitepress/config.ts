@@ -47,6 +47,7 @@ export default defineConfig({
           { text: "MultiSelect", link: "/components/multiselect" },
           { text: "Textarea", link: "/components/textarea" },
           { text: "Select", link: "/components/select" },
+          { text: "Tabs", link: "/components/tabs" },
         ]
       }
     ],

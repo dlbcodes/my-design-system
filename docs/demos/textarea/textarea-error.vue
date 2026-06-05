@@ -5,7 +5,7 @@ import FieldLabel from "../../../lib/components/form/field/FieldLabel.vue";
 import FieldContent from "../../../lib/components/form/field/FieldContent.vue";
 import FieldDescription from "../../../lib/components/form/field/FieldDescription.vue";
 import FieldError from "../../../lib/components/form/field/FieldError.vue";
-import Textarea from "../../../lib/components/primitives/Textarea.vue";
+import Textarea from "../../../lib/components/form/Textarea.vue";
 
 const feedback = ref("Too short");
 </script>

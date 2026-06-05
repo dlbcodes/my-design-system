@@ -6,3 +6,4 @@ export { default as Kbd } from "./Kbd.vue";
 export { default as KbdGroup } from "./KbdGroup.vue";
 export { default as Label } from "./Label.vue";
 export * from "./panel";
+export * from "./tabs";
