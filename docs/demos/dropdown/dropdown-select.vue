@@ -18,9 +18,9 @@ const chosen = ref("none");
             <DropdownContent size="sm">
                 <DropdownItem @select="chosen = 'Newest'">Newest</DropdownItem>
                 <DropdownItem @select="chosen = 'Oldest'">Oldest</DropdownItem>
-                <DropdownItem @select="chosen = 'Popular'"
-                    >Popular</DropdownItem
-                >
+                <DropdownItem @select="chosen = 'Popular'">
+                    Popular
+                </DropdownItem>
             </DropdownContent>
         </Dropdown>
         <p class="text-sm text-text-secondary">Selected: {{ chosen }}</p>
