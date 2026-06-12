@@ -3,13 +3,13 @@ import { inject, provide, type InjectionKey, type Ref } from "vue";
 export interface SidebarContext {
 	isMobile: Ref<boolean>;
 	mobileOpen: Ref<boolean>;
+	collapsed: Ref<boolean>;        // desktop: sidebar hidden
 	open: () => void;
 	close: () => void;
-	toggle: () => void;
+	toggle: () => void;             // toggles the right thing per breakpoint
 }
 
-export const SidebarContextKey: InjectionKey<SidebarContext> =
-	Symbol("SidebarContext");
+export const SidebarContextKey: InjectionKey<SidebarContext> = Symbol("SidebarContext");
 
 export const provideSidebar = (ctx: SidebarContext): void => {
 	provide(SidebarContextKey, ctx);

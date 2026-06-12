@@ -7,11 +7,9 @@ import { useSidebar } from "./context";
 interface Props {
     class?: HTMLAttributes["class"];
 }
-
 const props = defineProps<Props>();
-const { isMobile, mobileOpen, close } = useSidebar();
+const { isMobile, mobileOpen, collapsed, close } = useSidebar();
 
-// Lock body scroll while the mobile drawer is open.
 const locked = useScrollLock(
     typeof document !== "undefined" ? document.body : null,
 );
@@ -19,29 +17,29 @@ watch(mobileOpen, (isOpen) => {
     locked.value = isOpen && isMobile.value;
 });
 
-// Close on Escape (mobile).
 const onKeydown = (e: KeyboardEvent) => {
     if (e.key === "Escape") close();
 };
 </script>
 
 <template>
-    <!-- Desktop: inline sidebar -->
-    <aside
-        v-if="!isMobile"
-        :class="
-            cn(
-                'flex h-full w-64 flex-col border-r border-border-subtle bg-bg-surface',
-                props.class,
-            )
-        "
-    >
-        <slot />
-    </aside>
+    <!-- Desktop: inline sidebar, hidden when collapsed -->
+    <template v-if="!isMobile">
+        <aside
+            v-if="!collapsed"
+            :class="
+                cn(
+                    'flex h-full w-64 flex-col border-r border-border-subtle bg-bg-surface',
+                    props.class,
+                )
+            "
+        >
+            <slot />
+        </aside>
+    </template>
 
-    <!-- Mobile: overlay drawer -->
+    <!-- Mobile: overlay drawer (unchanged) -->
     <template v-else>
-        <!-- Backdrop -->
         <Transition
             enter-active-class="transition-opacity duration-200"
             enter-from-class="opacity-0"
@@ -55,7 +53,6 @@ const onKeydown = (e: KeyboardEvent) => {
             ></div>
         </Transition>
 
-        <!-- Drawer (slides from left) -->
         <Transition
             enter-active-class="transition-transform duration-200 ease-out"
             enter-from-class="-translate-x-full"

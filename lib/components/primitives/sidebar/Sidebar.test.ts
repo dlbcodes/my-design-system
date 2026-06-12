@@ -1,32 +1,34 @@
 import { describe, it, expect, vi } from "vitest";
-import { mount } from "@vue/test-utils";
+import { mount, type VueWrapper } from "@vue/test-utils";
 import { defineComponent, h, ref, type Ref } from "vue";
 import Sidebar from "./Sidebar.vue";
-import SidebarHeader from "./SidebarHeader.vue";
-import SidebarContent from "./SidebarContent.vue";
-import SidebarFooter from "./SidebarFooter.vue";
 import SidebarGroup from "./SidebarGroup.vue";
 import SidebarItem from "./SidebarItem.vue";
 import SidebarTrigger from "./SidebarTrigger.vue";
 import { SidebarContextKey, type SidebarContext } from "./context";
 
-// Build a controllable mock context so we can flip isMobile/mobileOpen
+// Controllable mock context — lets us flip isMobile/mobileOpen/collapsed
 // without depending on window size or useMediaQuery.
 const makeCtx = (overrides: Partial<SidebarContext> = {}): SidebarContext => ({
 	isMobile: ref(false) as Ref<boolean>,
 	mobileOpen: ref(false) as Ref<boolean>,
+	collapsed: ref(false) as Ref<boolean>,
 	open: vi.fn(),
 	close: vi.fn(),
 	toggle: vi.fn(),
 	...overrides,
 });
 
-// Mount a component with the mock sidebar context provided.
-const withCtx = (component: unknown, ctx: SidebarContext, options: Record<string, unknown> = {}) =>
+// Mount with the mock sidebar context provided.
+const withCtx = (
+	component: unknown,
+	ctx: SidebarContext,
+	options: Record<string, unknown> = {},
+): VueWrapper =>
 	mount(component as never, {
 		global: { provide: { [SidebarContextKey as symbol]: ctx } },
 		...options,
-	});
+	}) as VueWrapper;
 
 describe("SidebarGroup", () => {
 	it("renders a label when provided", () => {
@@ -63,7 +65,6 @@ describe("SidebarItem", () => {
 	});
 
 	it("renders as an arbitrary component passed to `as` and forwards attrs", () => {
-		// Stand-in for RouterLink / NuxtLink — any component works via `as`.
 		const FakeLink = defineComponent({
 			name: "FakeLink",
 			props: { to: { type: String, default: "" } },
@@ -132,7 +133,7 @@ describe("SidebarItem", () => {
 });
 
 describe("SidebarTrigger", () => {
-	it("renders on mobile and toggles", async () => {
+	it("renders and toggles on mobile", async () => {
 		const ctx = makeCtx({ isMobile: ref(true) as Ref<boolean> });
 		const wrapper = withCtx(SidebarTrigger, ctx);
 		const btn = wrapper.find("button");
@@ -141,19 +142,32 @@ describe("SidebarTrigger", () => {
 		expect(ctx.toggle).toHaveBeenCalledOnce();
 	});
 
-	it("does NOT render on desktop", () => {
+	it("renders and toggles on desktop too", async () => {
+		// The trigger is now always rendered; on desktop it collapses the sidebar.
 		const ctx = makeCtx({ isMobile: ref(false) as Ref<boolean> });
 		const wrapper = withCtx(SidebarTrigger, ctx);
-		expect(wrapper.find("button").exists()).toBe(false);
+		const btn = wrapper.find("button");
+		expect(btn.exists()).toBe(true);
+		await btn.trigger("click");
+		expect(ctx.toggle).toHaveBeenCalledOnce();
 	});
 });
 
 describe("Sidebar", () => {
-	it("renders an inline aside on desktop", () => {
+	it("renders an inline aside on desktop when not collapsed", () => {
 		const ctx = makeCtx({ isMobile: ref(false) as Ref<boolean> });
 		const wrapper = withCtx(Sidebar, ctx, { slots: { default: "nav" } });
 		expect(wrapper.find("aside").exists()).toBe(true);
 		expect(wrapper.text()).toContain("nav");
+	});
+
+	it("hides the sidebar on desktop when collapsed", () => {
+		const ctx = makeCtx({
+			isMobile: ref(false) as Ref<boolean>,
+			collapsed: ref(true) as Ref<boolean>,
+		});
+		const wrapper = withCtx(Sidebar, ctx, { slots: { default: "nav" } });
+		expect(wrapper.find("aside").exists()).toBe(false);
 	});
 
 	it("does not show the drawer on mobile when closed", () => {
@@ -162,7 +176,6 @@ describe("Sidebar", () => {
 			mobileOpen: ref(false) as Ref<boolean>,
 		});
 		const wrapper = withCtx(Sidebar, ctx, { slots: { default: "nav" } });
-		// drawer aside is behind v-if="mobileOpen", so not rendered when closed
 		expect(wrapper.find("aside").exists()).toBe(false);
 	});
 
@@ -176,13 +189,24 @@ describe("Sidebar", () => {
 		expect(wrapper.text()).toContain("nav");
 	});
 
+	it("is not affected by collapsed state on mobile", () => {
+		// collapsed is a desktop concept; on mobile the drawer still works.
+		const ctx = makeCtx({
+			isMobile: ref(true) as Ref<boolean>,
+			mobileOpen: ref(true) as Ref<boolean>,
+			collapsed: ref(true) as Ref<boolean>,
+		});
+		const wrapper = withCtx(Sidebar, ctx, { slots: { default: "nav" } });
+		// drawer still shows because collapsed only governs desktop
+		expect(wrapper.find("aside").exists()).toBe(true);
+	});
+
 	it("closes the drawer when the backdrop is clicked", async () => {
 		const ctx = makeCtx({
 			isMobile: ref(true) as Ref<boolean>,
 			mobileOpen: ref(true) as Ref<boolean>,
 		});
 		const wrapper = withCtx(Sidebar, ctx, { slots: { default: "nav" } });
-		// backdrop is the fixed inset-0 div with the click handler
 		const backdrop = wrapper.find(".fixed.inset-0");
 		expect(backdrop.exists()).toBe(true);
 		await backdrop.trigger("click");

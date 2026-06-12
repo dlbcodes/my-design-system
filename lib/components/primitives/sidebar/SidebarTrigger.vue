@@ -7,14 +7,12 @@ import { useSidebar } from "./context";
 interface Props {
     class?: HTMLAttributes["class"];
 }
-
 const props = defineProps<Props>();
-const { isMobile, toggle } = useSidebar();
+const { toggle } = useSidebar();
 </script>
 
 <template>
     <button
-        v-if="isMobile"
         type="button"
         :class="
             cn(

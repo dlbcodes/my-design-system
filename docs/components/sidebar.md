@@ -1,8 +1,9 @@
 # Sidebar
 
 A responsive navigation panel for app and dashboard layouts. On desktop it's a
-fixed panel beside your content; on mobile (below 768px) it becomes an overlay
-drawer opened by a trigger button.
+fixed panel beside your content that can be collapsed; on mobile (below 768px)
+it becomes an overlay drawer. A single `SidebarTrigger` controls both — it
+collapses the panel on desktop and opens the drawer on mobile.
 
 Sidebar is a **compound** component built around a `SidebarProvider` that holds
 the responsive state. Items are **framework-agnostic** — they render via an `as`
@@ -16,32 +17,34 @@ SidebarProvider     ← holds responsive state; wrap everything in it
 │   ├── SidebarHeader   ← logo / app name
 │   ├── SidebarContent  ← scrollable nav area
 │   │   └── SidebarGroup  ← an optionally-labeled group
-│   │       └── SidebarItem ← a nav item (renders via `as`, styled by `active`)
+│   │       └── SidebarItem ← a nav item (renders via as, styled by active)
 │   └── SidebarFooter   ← pinned to the bottom
-└── SidebarTrigger   ← hamburger button (shows on mobile); place in your top bar
+└── SidebarTrigger   ← toggles the sidebar; place it in your top bar
 ```
 
-`SidebarProvider` is required — it provides the mobile/open state that `Sidebar`
-and `SidebarTrigger` share.
+`SidebarProvider` is required — it provides the responsive and collapsed state
+that `Sidebar` and `SidebarTrigger` share.
 
 ## Usage
 
-The demos below show the desktop (inline) layout. **Resize your browser below
-768px** to see the mobile drawer: the sidebar hides and opens via the trigger.
+The demos below show the desktop (inline) layout. Use the trigger to collapse
+the sidebar, and **resize your browser below 768px** to see the mobile drawer.
 
 <preview path="../demos/sidebar/sidebar-basic.vue" title="Basic" description="A sidebar with a group of items."></preview>
 
 ## Dashboard shell
 
 A full layout: the sidebar beside a main area whose top bar holds the
-`SidebarTrigger` (visible on mobile).
+`SidebarTrigger`. Click the trigger to collapse the sidebar on desktop, or open
+the drawer on mobile.
 
-<preview path="../demos/sidebar/sidebar-shell.vue" title="Dashboard shell" description="Sidebar + main content with a mobile trigger."></preview>
+<preview path="../demos/sidebar/sidebar-shell.vue" title="Dashboard shell" description="Sidebar + main content with a collapse trigger."></preview>
 
 ## Layout
 
 Wrap everything in `SidebarProvider`, then place `Sidebar` and your main content
-side by side in a full-height flex container:
+side by side in a full-height flex container. Put a `SidebarTrigger` in your top
+bar to control it:
 
 ```vue
 <template>
@@ -78,11 +81,32 @@ side by side in a full-height flex container:
 
 ## Responsive behavior
 
-- **Desktop (≥ 768px):** the sidebar is a fixed inline panel. `SidebarTrigger`
-  is hidden.
+- **Desktop (≥ 768px):** the sidebar is an inline panel. `SidebarTrigger`
+  collapses it (hides it entirely), giving the content full width; clicking
+  again brings it back.
 - **Mobile (< 768px):** the sidebar is hidden and opens as an overlay drawer
   (sliding from the left) when `SidebarTrigger` is tapped. A backdrop appears,
   body scroll is locked, and tapping the backdrop or pressing Escape closes it.
+
+The same `SidebarTrigger` handles both — it collapses on desktop and opens the
+drawer on mobile, automatically.
+
+## Controlling state
+
+Use `useSidebar()` to read or control the state yourself:
+
+```vue
+<script setup lang="ts">
+import { useSidebar } from "@dlbcodes/my-design-system";
+
+const { collapsed, isMobile, open, close, toggle } = useSidebar();
+</script>
+```
+
+- `collapsed` — whether the desktop sidebar is collapsed (hidden).
+- `isMobile` — whether the viewport is below the mobile breakpoint.
+- `open` / `close` / `toggle` — control the sidebar; each acts on the drawer
+  (mobile) or the collapsed state (desktop), automatically.
 
 ## Routing
 
@@ -119,19 +143,20 @@ side by side in a full-height flex container:
 
 ### SidebarProvider
 
-Wraps the layout and provides responsive state. No props — it manages the mobile
-breakpoint and open/close state internally. Use `useSidebar()` if you need to
-read or control that state yourself.
+Wraps the layout and provides responsive + collapsed state. No props — it manages
+the mobile breakpoint, drawer, and desktop collapse internally. Use
+`useSidebar()` to read or control that state.
 
 ### SidebarTrigger
 
-A hamburger button that toggles the mobile drawer. Renders only on mobile. Place
-it in your top bar. Takes only `class`.
+A button that toggles the sidebar — collapsing it on desktop, or opening the
+drawer on mobile. Place it in your top bar. Takes only `class`.
 
 ### Sidebar / SidebarHeader / SidebarContent / SidebarFooter / SidebarGroup
 
 Each takes only `class` (and `SidebarGroup` an optional `label`). `Sidebar`
-switches between inline (desktop) and drawer (mobile) automatically.
+switches between inline (desktop), collapsed (hidden), and drawer (mobile)
+automatically.
 
 ## Notes
 

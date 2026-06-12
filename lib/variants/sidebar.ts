@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 export const sidebarItemVariants = cva(
 	[
-		"flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+		"flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
 		"outline-none focus-visible:ring-2 focus-visible:ring-border-strong",
 		"[&_svg]:size-4 [&_svg]:shrink-0",
 	].join(" "),

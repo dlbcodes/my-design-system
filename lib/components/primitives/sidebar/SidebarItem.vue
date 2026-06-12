@@ -12,17 +12,26 @@ interface Props {
     as?: string | Component;
     /** Whether this item is the active route (consumer-controlled). */
     active?: boolean;
+    /** Whether this item is disabled (visible but not interactive). */
+    disabled?: boolean;
     class?: HTMLAttributes["class"];
 }
 
 const props = withDefaults(defineProps<Props>(), {
     as: "a",
     active: false,
+    disabled: false,
 });
 
 const sidebar = useSidebar();
 
-const onClick = (): void => {
+const onClick = (e: MouseEvent): void => {
+    if (props.disabled) {
+        // Block navigation and interaction for disabled items.
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+    }
     // On mobile, navigating away should close the drawer (it covers the
     // content). On desktop the sidebar is persistent, so do nothing.
     if (sidebar.isMobile.value) sidebar.close();
@@ -31,8 +40,16 @@ const onClick = (): void => {
 
 <template>
     <component
-        :is="as"
-        :class="cn(sidebarItemVariants({ active }), props.class)"
+        :is="disabled ? 'span' : as"
+        :class="
+            cn(
+                sidebarItemVariants({ active }),
+                disabled && 'pointer-events-none opacity-50',
+                props.class,
+            )
+        "
+        :aria-disabled="disabled || undefined"
+        :tabindex="disabled ? -1 : undefined"
         @click="onClick"
     >
         <slot />

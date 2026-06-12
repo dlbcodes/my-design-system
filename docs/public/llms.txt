@@ -8,6 +8,7 @@
 ## Getting Started
 
 - [Getting Started](https://YOUR_DOCS_URL/guide/getting-started): Install, Tailwind v4 setup, and first usage.
+- [Theming](https://YOUR_DOCS_URL/guide/theming): Override semantic tokens to retheme the whole system.
 
 ## Installation
 
@@ -35,9 +36,11 @@ Tailwind v4 setup (in your main CSS):
 - Panel (Panel, PanelHeader, PanelContent, PanelFooter): Content container.
 - Tabs (Tabs, TabsList, TabsTrigger, TabsPanels, TabsContent): Tabbed interface (Headless UI, position-paired).
 - Disclosure (Disclosure, DisclosureTrigger, DisclosureContent): Collapsible section.
+- Empty (Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent): Empty-state placeholder for no-data scenarios. EmptyMedia has variant "default" | "icon".
+- Sidebar (SidebarProvider, Sidebar, SidebarTrigger, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarItem): Responsive app navigation. Inline panel on desktop (collapsible to hidden via SidebarTrigger), overlay drawer on mobile (<768px). SidebarProvider is required and holds the state; useSidebar() exposes { collapsed, isMobile, open, close, toggle }. SidebarItem is framework-agnostic: it renders via an `as` prop ("a", RouterLink, NuxtLink, "button") with consumer-controlled `active`.
 
 ### Form
-- Field (Field, FieldLabel, FieldContent, FieldDescription, FieldError): Wires label/description/error and ARIA for a control.
+- Field (Field, FieldLabel, FieldContent, FieldDescription, FieldError): Wires label/description/error and ARIA for a control. Supports orientation="horizontal" for toggle rows.
 - Input: Text input.
 - Textarea: Multi-line text input (autosize).
 - Checkbox: Checkbox input.
@@ -48,11 +51,11 @@ Tailwind v4 setup (in your main CSS):
 
 ### Overlays
 - Modal (Modal, ModalHeader, ModalTitle, ModalDescription, ModalContent, ModalFooter, ModalClose): Dialog, v-model open state.
-- Popover (Popover, PopoverTrigger, PopoverContent): Floating panel.
+- Popover (Popover, PopoverTrigger, PopoverContent): Floating panel; PopoverContent exposes a `close` via its default slot.
 
 ## Conventions
 
 - Compound components: compose parts (e.g. Field + FieldLabel + Input) rather than one prop-heavy component.
-- All styling via semantic CSS-variable tokens (see tokens.css) — override tokens to theme.
+- All styling via semantic CSS-variable tokens (see tokens.css), which reference an internal primitive palette. Override the semantic tokens to retheme; a [data-theme] block of overrides can switch the whole look at runtime.
 - Light mode only (no dark mode).
-- Built on Headless UI for accessible overlays/menus/tabs/disclosure.
+- Built on Headless UI for accessible overlays/menus/tabs/disclosure; Sidebar and Popover positioning use Headless UI Float.

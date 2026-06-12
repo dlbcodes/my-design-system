@@ -10,11 +10,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-    <div
-        :class="
-            cn('mt-auto border-t border-border-subtle px-4 py-4', props.class)
-        "
-    >
+    <div :class="cn('mt-auto px-4 py-4', props.class)">
         <slot />
     </div>
 </template>

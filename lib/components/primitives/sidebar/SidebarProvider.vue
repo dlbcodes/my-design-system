@@ -3,20 +3,30 @@ import { ref, watch } from "vue";
 import { useMediaQuery } from "@vueuse/core";
 import { provideSidebar } from "./context";
 
-// mobile = below md (768px)
 const isMobile = useMediaQuery("(max-width: 767px)");
 const mobileOpen = ref(false);
+const collapsed = ref(false); // desktop hidden state
 
-const open = () => (mobileOpen.value = true);
-const close = () => (mobileOpen.value = false);
-const toggle = () => (mobileOpen.value = !mobileOpen.value);
+const open = () => {
+    if (isMobile.value) mobileOpen.value = true;
+    else collapsed.value = false;
+};
+const close = () => {
+    if (isMobile.value) mobileOpen.value = false;
+    else collapsed.value = true;
+};
+// One trigger, breakpoint-aware: mobile opens/closes drawer, desktop collapses/expands.
+const toggle = () => {
+    if (isMobile.value) mobileOpen.value = !mobileOpen.value;
+    else collapsed.value = !collapsed.value;
+};
 
-// Close the drawer if we resize up to desktop while it's open.
+// Reset the drawer when crossing to desktop.
 watch(isMobile, (mobile) => {
     if (!mobile) mobileOpen.value = false;
 });
 
-provideSidebar({ isMobile, mobileOpen, open, close, toggle });
+provideSidebar({ isMobile, mobileOpen, collapsed, open, close, toggle });
 </script>
 
 <template>
