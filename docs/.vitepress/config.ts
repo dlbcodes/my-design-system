@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vitepress'
 import tailwindcss from "@tailwindcss/vite";
 import { containerPreview, componentPreview } from "@vitepress-demo-preview/plugin";
+import container from "markdown-it-container";
 
 const isProd = process.env.NODE_ENV === "production";
 const showcaseUrl = isProd
@@ -24,6 +25,7 @@ export default defineConfig({
     config(md) {
       md.use(containerPreview, { clientOnly: true });
       md.use(componentPreview, { clientOnly: true });
+
     },
   },
   themeConfig: {

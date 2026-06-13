@@ -127,7 +127,7 @@ watch(
                         ref="dialogRef"
                         :class="
                             cn(
-                                'relative flex max-h-[calc(100vh-100px)] w-full flex-col overflow-y-auto rounded-3xl border border-border-subtle bg-bg-surface shadow-xs',
+                                'relative flex max-h-[calc(100vh-100px)] w-full flex-col overflow-y-auto rounded-3xl border border-border-subtle bg-bg-raised shadow-xs',
                                 SIZE_CLASSES[size],
                                 props.class,
                             )
