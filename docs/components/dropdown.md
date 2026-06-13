@@ -9,11 +9,12 @@ Dropdown is a **compound component** composed of four parts.
 
 ## Anatomy
 
-\```Dropdown               ← the root; controls placement and offset
+```
+Dropdown               ← the root; controls placement and offset
 ├── DropdownTrigger    ← the button that opens the menu
 └── DropdownContent    ← the floating menu panel
     └── DropdownItem    ← each selectable action (emits`select`)
-\```
+```
 
 `DropdownItem` is slot-only — put a label, or an icon plus a label, inside it. It
 emits `select` when chosen, and exposes an `active` slot prop (true when

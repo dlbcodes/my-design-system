@@ -22,6 +22,7 @@ const ctx = useMultiSelectContext("MultiSelectSearch");
             v-model="ctx.query.value"
             type="text"
             :placeholder="placeholder"
+            :aria-label="placeholder"
             class="w-full bg-transparent text-sm font-medium text-text-primary outline-none placeholder:text-text-tertiary"
             @click.stop
             @keydown.stop

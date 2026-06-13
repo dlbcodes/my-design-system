@@ -8,11 +8,11 @@ Popover is a **compound component**: you compose three parts.
 
 ## Anatomy
 
-\```
+```
 Popover ← the root; controls placement and offset
 ├── PopoverTrigger ← the clickable element that opens it
 └── PopoverContent ← the floating panel (controls its own size)
-\```
+```
 
 The trigger exposes an `open` slot prop (the current open state); the content
 exposes a `close` slot prop (call it to dismiss the panel from inside).

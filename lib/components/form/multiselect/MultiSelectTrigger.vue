@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue";
+import { inject, type HTMLAttributes } from "vue";
 import { PopoverButton } from "@headlessui/vue";
 import { FloatReference } from "@headlessui-float/vue";
 import { PhCaretUpDown } from "@phosphor-icons/vue";
 import { cn } from "../../../utils/cn";
 import { inputVariants, type InputProps } from "../../../variants/input";
+import { FieldKey } from "../../../core/field-context";
 
 interface Props {
     label?: string;
@@ -18,12 +19,19 @@ const props = withDefaults(defineProps<Props>(), {
     variant: "primary",
     size: "base",
 });
+
+// Optional Field integration — adopt the Field's id/aria/state when wrapped in a <Field>.
+const field = inject(FieldKey, null);
 </script>
 
 <template>
     <FloatReference>
         <PopoverButton
-            as="div"
+            as="button"
+            :id="field?.id.value"
+            :aria-describedby="field?.describedById.value"
+            :aria-invalid="field?.invalid.value || undefined"
+            :data-invalid="field?.invalid.value || undefined"
             :class="
                 cn(
                     inputVariants({ variant, size }),

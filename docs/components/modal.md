@@ -11,7 +11,7 @@ button), and it closes itself via the close button, backdrop, or `Escape`.
 
 ## Anatomy
 
-\```
+```
 Modal ← the dialog; controlled by v-model, sets size/persistence
 ├── ModalHeader ← title area (position the close button here)
 │ ├── ModalTitle ← the heading (wires aria-labelledby)
@@ -19,7 +19,7 @@ Modal ← the dialog; controlled by v-model, sets size/persistence
 │ └── ModalClose ← the × dismiss button
 ├── ModalContent ← the body
 └── ModalFooter ← action buttons (Cancel / Confirm)
-\```
+```
 
 Every part is optional except `Modal` itself — include only what you need. The
 default slot exposes a `close` function for wiring footer actions.

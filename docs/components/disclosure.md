@@ -11,11 +11,11 @@ to form an FAQ or accordion-style list.
 
 ## Anatomy
 
-\```
+```
 Disclosure ← the root; manages open/closed state
 ├── DisclosureButton ← the trigger row (shows a rotating chevron)
 └── DisclosurePanel ← the collapsible content
-\```
+```
 
 The button's content is the heading; the panel's content is what's revealed.
 The chevron rotates automatically with the open state.

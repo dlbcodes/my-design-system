@@ -10,13 +10,13 @@ Alert is a **compound component**: an `Alert` container with `AlertTitle` and
 
 ## Anatomy
 
-\```
+```
 Alert ← container; sets the variant, lays out icon/content/action
 ├── #icon (slot) ← optional leading icon
 ├── AlertTitle ← short heading
 ├── AlertDescription ← supporting text
 └── #action (slot) ← optional action, top-right
-\```
+```
 
 ## Usage
 

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, type VueWrapper } from "@vue/test-utils";
-import { defineComponent, h, ref, type Ref } from "vue";
+import { defineComponent, h, ref, type Ref, markRaw } from "vue";
 import Sidebar from "./Sidebar.vue";
 import SidebarGroup from "./SidebarGroup.vue";
 import SidebarItem from "./SidebarItem.vue";
@@ -65,14 +65,13 @@ describe("SidebarItem", () => {
 	});
 
 	it("renders as an arbitrary component passed to `as` and forwards attrs", () => {
-		const FakeLink = defineComponent({
+		const FakeLink = markRaw(defineComponent({
 			name: "FakeLink",
 			props: { to: { type: String, default: "" } },
 			setup(props, { slots }) {
-				return () =>
-					h("a", { "data-to": props.to, "data-fake-link": "" }, slots.default?.());
+				return () => h("a", { "data-to": props.to, "data-fake-link": "" }, slots.default?.());
 			},
-		});
+		}));
 		const ctx = makeCtx();
 		const wrapper = withCtx(SidebarItem, ctx, {
 			props: { as: FakeLink, to: "/dashboard" },

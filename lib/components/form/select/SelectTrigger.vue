@@ -6,6 +6,7 @@ import { PhCaretUpDown } from "@phosphor-icons/vue";
 import { cn } from "../../../utils/cn";
 import { inputVariants, type InputProps } from "../../../variants/input";
 import { SelectKey } from "./context";
+import { FieldKey } from "../../../core/field-context";
 
 interface Props {
     placeholder?: string;
@@ -22,6 +23,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 const ctx = inject(SelectKey);
 if (!ctx) throw new Error("SelectTrigger must be used inside Select");
+
+// Optional Field integration — when wrapped in a <Field>, adopt its id/aria/state
+// so the label's `for` targets this trigger and ARIA wiring is complete.
+const field = inject(FieldKey, null);
 </script>
 
 <template>
@@ -29,6 +34,10 @@ if (!ctx) throw new Error("SelectTrigger must be used inside Select");
         <ListboxButton
             as="button"
             type="button"
+            :id="field?.id.value"
+            :aria-describedby="field?.describedById.value"
+            :aria-invalid="field?.invalid.value || undefined"
+            :data-invalid="field?.invalid.value || undefined"
             :class="
                 cn(
                     inputVariants({ variant, size }),
@@ -41,8 +50,6 @@ if (!ctx) throw new Error("SelectTrigger must be used inside Select");
                 class="block truncate"
                 :class="!ctx.selected.value && 'text-text-tertiary'"
             >
-                <!-- Shows the captured label of the selection; falls back to
-                     the placeholder when nothing is selected. -->
                 <slot
                     :selected="ctx.selected.value"
                     :label="ctx.selectedLabel.value"

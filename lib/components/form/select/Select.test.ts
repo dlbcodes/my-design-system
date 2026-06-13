@@ -6,6 +6,8 @@ import SelectTrigger from "./SelectTrigger.vue";
 import SelectContent from "./SelectContent.vue";
 import SelectItem from "./SelectItem.vue";
 import SelectSearch from "./SelectSearch.vue";
+import Field from "../field/Field.vue";
+import FieldLabel from "../field/FieldLabel.vue";
 
 // Harness: a real composed Select, since the parts only work together via the
 // provided context. Label is now slot content (<SelectItem value="x">X</SelectItem>).
@@ -152,5 +154,73 @@ describe("Select", () => {
 	// --- context guard ---
 	it("throws if a part is used outside Select", () => {
 		expect(() => mount(SelectTrigger)).toThrow();
+	});
+});
+
+describe("Select + Field integration", () => {
+	// Harness: a Select wrapped in a Field with a label.
+	const makeFieldSelect = () =>
+		defineComponent({
+			components: { Field, FieldLabel, Select, SelectTrigger, SelectContent, SelectItem },
+			setup() {
+				const model = ref("");
+				return { model };
+			},
+			template: `
+                <Field>
+                    <FieldLabel>Framework</FieldLabel>
+                    <Select v-model="model">
+                        <SelectTrigger placeholder="Pick one" />
+                        <SelectContent>
+                            <SelectItem value="vue">Vue</SelectItem>
+                            <SelectItem value="react">React</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </Field>
+            `,
+		});
+
+	it("adopts the Field's id on the trigger so the label targets it", () => {
+		const wrapper = mount(makeFieldSelect());
+		const label = wrapper.find("label");
+		const button = wrapper.find("button");
+
+		const forId = label.attributes("for");
+		expect(forId).toBeTruthy();
+		// the trigger button carries the same id the label points at
+		expect(button.attributes("id")).toBe(forId);
+	});
+
+	it("wires aria-describedby and aria-invalid from the Field when invalid", () => {
+		const wrapper = mount(
+			defineComponent({
+				components: { Field, FieldLabel, Select, SelectTrigger, SelectContent, SelectItem },
+				setup() {
+					const model = ref("");
+					return { model };
+				},
+				template: `
+                    <Field invalid>
+                        <FieldLabel>Framework</FieldLabel>
+                        <Select v-model="model">
+                            <SelectTrigger placeholder="Pick one" />
+                            <SelectContent>
+                                <SelectItem value="vue">Vue</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </Field>
+                `,
+			}),
+		);
+		const button = wrapper.find("button");
+		expect(button.attributes("aria-invalid")).toBe("true");
+		expect(button.attributes("aria-describedby")).toBeTruthy();
+	});
+
+	it("works standalone without a Field (no crash, trigger renders)", () => {
+		const wrapper = mount(makeSelect());
+		const button = wrapper.find("button");
+		expect(button.exists()).toBe(true);
+		expect(button.text()).toContain("Pick one");
 	});
 });

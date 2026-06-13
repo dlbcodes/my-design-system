@@ -6,10 +6,16 @@ const baseStyles = [
 	"items-center",
 	"gap-x-2",
 	"w-full",
-	"transition-colors",
-	"duration-100",
-	"ease-linear",
+	"min-w-0",
+	"border",                       // constant 1px border — never thickens
+	"transition-[color,box-shadow]", // animate ring/color, NOT border width
+	"outline-none",
+	// focus shows a RING, not a thicker/colored border shift
+	"focus-within:border-border-dark",
+	"focus-within:ring-1",
+	"focus-within:ring-border-dark",
 	"disabled:pointer-events-none",
+	"disabled:cursor-not-allowed",
 	"disabled:opacity-50",
 ].join(" ");
 
@@ -18,22 +24,16 @@ export const inputVariants = cva(baseStyles, {
 		variant: {
 			primary: [
 				"bg-bg-surface",
-				"border",
 				"border-border-default",
 				"text-text-primary",
 				"font-medium",
-				"hover:border-border-strong",
-				"focus-within:border-bg-inverse",
 			].join(" "),
 
 			contrast: [
 				"bg-white",
-				"border-2",
 				"border-border-default",
 				"text-text-primary",
 				"font-medium",
-				"hover:border-border-strong",
-				"focus-within:border-bg-inverse",
 			].join(" "),
 
 			secondary: "",
@@ -53,10 +53,9 @@ export const inputVariants = cva(baseStyles, {
 
 		invalid: {
 			true: [
-				"border-red-500",
-				"bg-red-50",
-				"hover:border-red-600",
-				"focus-within:border-red-600",
+				"border-danger-border",
+				"ring-[3px]",
+				"ring-danger-border/20",
 			].join(" "),
 
 			false: "",
@@ -70,5 +69,4 @@ export const inputVariants = cva(baseStyles, {
 	},
 });
 
-export type InputProps =
-	VariantProps<typeof inputVariants>;
+export type InputProps = VariantProps<typeof inputVariants>;

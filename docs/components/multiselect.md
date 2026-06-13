@@ -10,12 +10,13 @@ items to taste.
 
 ## Anatomy
 
-\```MultiSelect              ← root: holds options + v-model, exposes slot props
+```
+MultiSelect ← root: holds options + v-model, exposes slot props
 ├── MultiSelectTrigger   ← the field-like button showing the summary
 └── MultiSelectContent   ← the floating panel
     ├── MultiSelectSearch ← optional search input (needs`searchable`)
 └── MultiSelectItem ← one per option (a checkbox row)
-\```
+```
 
 The root's default slot exposes everything the parts need: `label` (the trigger
 summary), `empty`, `count`, `allSelected`, `visibleCount`, `toggleAll`, and

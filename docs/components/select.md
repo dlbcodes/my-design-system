@@ -12,12 +12,13 @@ value.
 
 ## Anatomy
 
-\```Select               ← root: holds v-model, provides context, sets placement
+```
+Select               ← root: holds v-model, provides context, sets placement
 ├── SelectTrigger    ← the field-like button showing the current selection
 └── SelectContent    ← the floating panel (matches the trigger's width)
     ├── SelectSearch  ← optional search input (needs`searchable` on the root)
 └── SelectItem ← one per option; its content is the label
-\```
+```
 
 Each option is a `SelectItem` with a `value` prop; whatever you put **inside** it
 is the label. The trigger shows the chosen option's text once selected.

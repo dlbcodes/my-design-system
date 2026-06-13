@@ -12,14 +12,14 @@ all automatically, so you never manage `id`s or ARIA attributes by hand.
 
 ## Anatomy
 
-\```
+```
 Field ← provides context; sets orientation and state
 ├── FieldLabel ← label; auto-targets the control (shows \* when required)
 └── FieldContent ← groups the control with its messages
 ├── (your control) ← Input, Checkbox, Switch… inherits id/state from Field
 ├── FieldDescription ← help text; linked via aria-describedby
 └── FieldError ← error message; role="alert", linked when invalid
-\```
+```
 
 Put the control inside `FieldContent` alongside its `FieldDescription` and
 `FieldError`. The control picks up everything from the surrounding `Field`.
